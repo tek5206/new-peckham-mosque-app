@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Platform, View } from 'react-native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import Colors from '../constants/colors';
+import { Shadows } from '../constants/theme';
 
 import HomeScreen from '../screens/HomeScreen';
 import PrayerTimesScreen from '../screens/PrayerTimesScreen';
@@ -18,69 +20,88 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TAB_ICONS = {
-  HomeTab: '🏠',
-  PrayerTimesTab: '🕐',
-  AnnouncementsTab: '📢',
-  DonateTab: '🤲',
-  MoreTab: '☰',
+  HomeTab: { active: 'home', inactive: 'home-outline' },
+  PrayerTimesTab: { active: 'time', inactive: 'time-outline' },
+  AnnouncementsTab: { active: 'megaphone', inactive: 'megaphone-outline' },
+  DonateTab: { active: 'heart', inactive: 'heart-outline' },
+  MoreTab: { active: 'grid', inactive: 'grid-outline' },
 };
 
 function TabIcon({ routeName, focused }) {
+  const icon = TAB_ICONS[routeName];
   return (
-    <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>{TAB_ICONS[routeName]}</Text>
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Ionicons
+        name={focused ? icon.active : icon.inactive}
+        size={23}
+        color={focused ? Colors.primary : Colors.textFaint}
+      />
+      <View
+        style={{
+          marginTop: 4,
+          width: 4,
+          height: 4,
+          borderRadius: 2,
+          backgroundColor: focused ? Colors.gold : 'transparent',
+        }}
+      />
+    </View>
   );
 }
 
 // "More" is a tiny stack so Settings lives inside the tab bar too.
 function MoreStack() {
-  const { t } = useTranslation();
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ title: t('settings.title'), headerShown: false }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
     </Stack.Navigator>
   );
 }
 
 function HomeStack() {
-  const { t } = useTranslation();
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="AboutScreen"
-        component={AboutScreen}
-        options={{ title: t('about.title'), headerShown: false }}
-      />
-      <Stack.Screen
-        name="ContactScreen"
-        component={ContactScreen}
-        options={{ title: t('contact.title'), headerShown: false }}
-      />
-      <Stack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ title: t('settings.title'), headerShown: false }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="AboutScreen" component={AboutScreen} />
+      <Stack.Screen name="ContactScreen" component={ContactScreen} />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
     </Stack.Navigator>
   );
 }
+
+const NavTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.background,
+    card: Colors.card,
+    primary: Colors.primary,
+    text: Colors.text,
+    border: Colors.border,
+  },
+};
 
 export default function AppNavigator() {
   const { t } = useTranslation();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={NavTheme}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
+          tabBarShowLabel: true,
           tabBarActiveTintColor: Colors.primary,
-          tabBarInactiveTintColor: Colors.textMuted,
+          tabBarInactiveTintColor: Colors.textFaint,
           tabBarIcon: ({ focused }) => <TabIcon routeName={route.name} focused={focused} />,
-          tabBarStyle: { paddingTop: 4, height: 60 },
+          tabBarLabelStyle: { fontSize: 11, fontWeight: '700', marginTop: -2 },
+          tabBarStyle: {
+            height: Platform.OS === 'ios' ? 86 : 66,
+            paddingTop: 10,
+            paddingBottom: Platform.OS === 'ios' ? 28 : 10,
+            backgroundColor: Colors.card,
+            borderTopWidth: 0,
+            ...Shadows.raised,
+          },
         })}
       >
         <Tab.Screen name="HomeTab" component={HomeStack} options={{ title: t('tabs.home') }} />

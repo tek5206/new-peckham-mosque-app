@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
+import { Radius, Shadows, Spacing, Typography } from '../constants/theme';
 import PrayerRow from '../components/PrayerRow';
+import ScreenHeader from '../components/ScreenHeader';
 import {
   fetchTodayPrayerTimes,
   getNextPrayer,
@@ -18,6 +21,14 @@ import {
 } from '../services/prayerTimesService';
 
 const PRAYER_ORDER = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+const PRAYER_ICONS = {
+  Fajr: 'partly-sunny-outline',
+  Sunrise: 'sunny-outline',
+  Dhuhr: 'sunny',
+  Asr: 'cloudy-outline',
+  Maghrib: 'moon-outline',
+  Isha: 'moon',
+};
 
 export default function PrayerTimesScreen() {
   const { t } = useTranslation();
@@ -63,13 +74,23 @@ export default function PrayerTimesScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <ScrollView
         contentContainerStyle={styles.container}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={Colors.primary}
+          />
+        }
       >
-        <Text style={styles.title}>{t('prayer.title')}</Text>
-        <Text style={styles.method}>{t('prayer.calculationMethod')}</Text>
+        <ScreenHeader
+          eyebrow={t('prayer.calculationMethod')}
+          title={t('prayer.title')}
+          showMark
+        />
 
         {loading ? (
           <ActivityIndicator color={Colors.primary} size="large" style={{ marginTop: 40 }} />
@@ -77,6 +98,13 @@ export default function PrayerTimesScreen() {
           <>
             {nextPrayer && (
               <View style={styles.countdownCard}>
+                <View style={styles.countdownIconWrap}>
+                  <Ionicons
+                    name={PRAYER_ICONS[nextPrayer.name] || 'time-outline'}
+                    size={22}
+                    color={Colors.goldLight}
+                  />
+                </View>
                 <Text style={styles.countdownLabel}>
                   {t('prayer.nextIn')} · {t(`prayer.${nextPrayer.name.toLowerCase()}`)}
                 </Text>
@@ -84,12 +112,18 @@ export default function PrayerTimesScreen() {
               </View>
             )}
 
-            {error && <Text style={styles.errorText}>{error}</Text>}
+            {error && (
+              <View style={styles.errorBox}>
+                <Ionicons name="alert-circle" size={16} color={Colors.danger} />
+                <Text style={styles.errorText}>{error}</Text>
+              </View>
+            )}
 
             <View style={styles.list}>
               {PRAYER_ORDER.map((key) => (
                 <PrayerRow
                   key={key}
+                  icon={PRAYER_ICONS[key]}
                   label={t(`prayer.${key.toLowerCase()}`)}
                   time={timings?.[key] || '--:--'}
                   isNext={nextPrayer?.name === key}
@@ -105,18 +139,35 @@ export default function PrayerTimesScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
-  container: { padding: 20 },
-  title: { fontSize: 26, fontWeight: '800', color: Colors.primaryDark, marginBottom: 4 },
-  method: { fontSize: 12, color: Colors.textMuted, marginBottom: 16 },
+  container: { padding: Spacing.xl, paddingBottom: 48 },
   countdownCard: {
     backgroundColor: Colors.primaryDark,
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: Radius.xl,
+    padding: 24,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: Spacing.xl,
+    ...Shadows.raised,
   },
-  countdownLabel: { color: Colors.goldLight, fontSize: 14, marginBottom: 6, fontWeight: '600' },
-  countdownValue: { color: Colors.white, fontSize: 36, fontWeight: '800', letterSpacing: 1 },
-  list: { marginTop: 4 },
-  errorText: { color: Colors.danger, marginBottom: 12, textAlign: 'center' },
+  countdownIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  countdownLabel: { color: Colors.goldLight, fontSize: 13.5, marginBottom: 8, fontWeight: '700' },
+  countdownValue: { color: Colors.white, fontSize: 40, fontWeight: '800', letterSpacing: 0.5 },
+  list: { marginTop: 4, gap: 10 },
+  errorBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: Colors.dangerLight,
+    borderRadius: Radius.sm,
+    padding: 12,
+    marginBottom: Spacing.lg,
+  },
+  errorText: { color: Colors.danger, ...Typography.caption },
 });

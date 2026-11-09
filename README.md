@@ -141,7 +141,12 @@ the user to restart after a language change (e.g. with `expo-updates`'
 
 - Replace all `REPLACE_ME` / `REPLACE_WITH_...` placeholders (Stripe keys,
   Firebase config, backend URL, EAS project ID).
-- Add real app icons/splash screens to `/assets` (referenced in `app.json`).
+- App icon, adaptive icon, splash screen and notification icon are generated
+  from the mosque's own emblem (`assets/branding/mosque-logo.png`) and already
+  wired up in `app.json`. The ICMG wordmark (`assets/branding/icmg-logo.png`)
+  is used on the About screen and the Home footer. Swap either source file and
+  re-run the icon/splash generation if the mosque provides higher-resolution
+  artwork later.
 - Double-check the About-page history text in `src/i18n/locales/*.json` — the
   website itself doesn't publish a detailed history, so this is a reasonable
   summary based on public information about ICMG and Sheikh Nazim Al-Qubrusi;

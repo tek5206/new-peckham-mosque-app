@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
+import { Radius, Shadows } from '../constants/theme';
 
-const CATEGORY_COLORS = {
-  event: Colors.primary,
-  meeting: Colors.gold,
-  fundraiser: Colors.danger,
-  general: Colors.textMuted,
+const CATEGORY_META = {
+  event: { color: Colors.primary, icon: 'calendar-outline' },
+  meeting: { color: Colors.goldDark, icon: 'people-outline' },
+  fundraiser: { color: Colors.danger, icon: 'hand-left-outline' },
+  general: { color: Colors.textMuted, icon: 'information-circle-outline' },
 };
 
 function isRecent(createdAt) {
@@ -21,17 +23,15 @@ export default function AnnouncementCard({ item }) {
   const dateStr = item.createdAt?.toDate
     ? item.createdAt.toDate().toLocaleDateString()
     : '';
+  const meta = CATEGORY_META[item.category] || CATEGORY_META.general;
 
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <View
-          style={[
-            styles.categoryDot,
-            { backgroundColor: CATEGORY_COLORS[item.category] || Colors.textMuted },
-          ]}
-        />
-        <Text style={styles.title}>{item.title}</Text>
+        <View style={[styles.categoryIconWrap, { backgroundColor: `${meta.color}1A` }]}>
+          <Ionicons name={meta.icon} size={15} color={meta.color} />
+        </View>
+        <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
         {isRecent(item.createdAt) && (
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{t('announcements.newBadge')}</Text>
@@ -39,7 +39,12 @@ export default function AnnouncementCard({ item }) {
         )}
       </View>
       <Text style={styles.body}>{item.body}</Text>
-      {!!dateStr && <Text style={styles.date}>{dateStr}</Text>}
+      {!!dateStr && (
+        <View style={styles.footerRow}>
+          <Ionicons name="time-outline" size={12} color={Colors.textFaint} />
+          <Text style={styles.date}>{dateStr}</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -47,17 +52,23 @@ export default function AnnouncementCard({ item }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.card,
-    borderRadius: 14,
+    borderRadius: Radius.lg,
     padding: 16,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    ...Shadows.card,
   },
-  headerRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
-  categoryDot: { width: 8, height: 8, borderRadius: 4, marginRight: 8 },
-  title: { fontSize: 16, fontWeight: '700', color: Colors.text, flex: 1 },
-  badge: { backgroundColor: Colors.gold, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 2 },
-  badgeText: { color: Colors.white, fontSize: 11, fontWeight: '700' },
+  headerRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, gap: 10 },
+  categoryIconWrap: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: { fontSize: 16, fontWeight: '800', color: Colors.text, flex: 1 },
+  badge: { backgroundColor: Colors.gold, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  badgeText: { color: Colors.white, fontSize: 10.5, fontWeight: '800' },
   body: { fontSize: 14, color: Colors.textMuted, lineHeight: 20 },
-  date: { fontSize: 12, color: Colors.textMuted, marginTop: 8, textAlign: 'right' },
+  footerRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 10 },
+  date: { fontSize: 11.5, color: Colors.textFaint, fontWeight: '600' },
 });

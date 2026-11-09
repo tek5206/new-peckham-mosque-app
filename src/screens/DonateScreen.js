@@ -7,14 +7,18 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  ActivityIndicator,
   Linking,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStripe } from '@stripe/stripe-react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
+import { Radius, Shadows, Spacing, Typography } from '../constants/theme';
 import { createPaymentIntent, createSubscription } from '../services/donationService';
+import ScreenHeader from '../components/ScreenHeader';
+import Card from '../components/Card';
+import Button from '../components/Button';
 
 const PRESET_AMOUNTS = [10, 20, 50, 100];
 
@@ -77,10 +81,13 @@ export default function DonateScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>{t('donate.title')}</Text>
-        <Text style={styles.subtitle}>{t('donate.subtitle')}</Text>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <ScreenHeader eyebrow={t('donate.subtitle')} title={t('donate.title')} showMark />
 
         <View style={styles.toggleRow}>
           <TouchableOpacity
@@ -101,68 +108,77 @@ export default function DonateScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.label}>{t('donate.chooseAmount')}</Text>
-        <View style={styles.amountRow}>
-          {PRESET_AMOUNTS.map((val) => (
-            <TouchableOpacity
-              key={val}
-              style={[
-                styles.amountChip,
-                amount === val && !customAmount && styles.amountChipActive,
-              ]}
-              onPress={() => {
-                setAmount(val);
-                setCustomAmount('');
-              }}
-            >
-              <Text
+        <Card style={styles.amountCard}>
+          <Text style={styles.label}>{t('donate.chooseAmount')}</Text>
+          <View style={styles.amountRow}>
+            {PRESET_AMOUNTS.map((val) => (
+              <TouchableOpacity
+                key={val}
                 style={[
-                  styles.amountChipText,
-                  amount === val && !customAmount && styles.amountChipTextActive,
+                  styles.amountChip,
+                  amount === val && !customAmount && styles.amountChipActive,
                 ]}
+                onPress={() => {
+                  setAmount(val);
+                  setCustomAmount('');
+                }}
               >
-                £{val}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+                <Text
+                  style={[
+                    styles.amountChipText,
+                    amount === val && !customAmount && styles.amountChipTextActive,
+                  ]}
+                >
+                  £{val}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
-        <Text style={styles.label}>{t('donate.customAmount')}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="£"
-          keyboardType="numeric"
-          value={customAmount}
-          onChangeText={setCustomAmount}
+          <Text style={styles.label}>{t('donate.customAmount')}</Text>
+          <View style={styles.inputWrap}>
+            <Text style={styles.inputPrefix}>£</Text>
+            <TextInput
+              style={styles.inputWithPrefix}
+              placeholder="0"
+              placeholderTextColor={Colors.textFaint}
+              keyboardType="numeric"
+              value={customAmount}
+              onChangeText={setCustomAmount}
+            />
+          </View>
+
+          {frequency === 'monthly' && (
+            <>
+              <Text style={styles.label}>{t('contact.yourName')}</Text>
+              <TextInput style={styles.input} value={name} onChangeText={setName} />
+              <Text style={styles.label}>{t('contact.yourEmail')}</Text>
+              <TextInput
+                style={styles.input}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+              />
+            </>
+          )}
+        </Card>
+
+        <Button
+          title={`${t('donate.donateNow')} · £${effectiveAmount || 0}`}
+          onPress={handleDonate}
+          loading={loading}
+          icon={!loading && <Ionicons name="heart" size={18} color={Colors.white} />}
+          style={{ marginTop: Spacing.lg }}
         />
 
+        <View style={styles.noteRow}>
+          <Ionicons name="shield-checkmark-outline" size={14} color={Colors.textMuted} />
+          <Text style={styles.note}>{t('donate.secureNote')}</Text>
+        </View>
         {frequency === 'monthly' && (
-          <>
-            <Text style={styles.label}>{t('contact.yourName')}</Text>
-            <TextInput style={styles.input} value={name} onChangeText={setName} />
-            <Text style={styles.label}>{t('contact.yourEmail')}</Text>
-            <TextInput
-              style={styles.input}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-            />
-          </>
+          <Text style={[styles.note, { textAlign: 'center' }]}>{t('donate.cancelAnytime')}</Text>
         )}
-
-        <TouchableOpacity style={styles.donateBtn} onPress={handleDonate} disabled={loading}>
-          {loading ? (
-            <ActivityIndicator color={Colors.white} />
-          ) : (
-            <Text style={styles.donateBtnText}>
-              {t('donate.donateNow')} · £{effectiveAmount || 0}
-            </Text>
-          )}
-        </TouchableOpacity>
-
-        <Text style={styles.note}>{t('donate.secureNote')}</Text>
-        {frequency === 'monthly' && <Text style={styles.note}>{t('donate.cancelAnytime')}</Text>}
 
         <TouchableOpacity onPress={() => Linking.openURL('https://hasene.org.uk')}>
           <Text style={styles.haseneLink}>{t('donate.haseneNote')}</Text>
@@ -174,44 +190,51 @@ export default function DonateScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
-  container: { padding: 20, paddingBottom: 60 },
-  title: { fontSize: 26, fontWeight: '800', color: Colors.primaryDark },
-  subtitle: { fontSize: 14, color: Colors.textMuted, marginTop: 6, marginBottom: 20 },
-  toggleRow: { flexDirection: 'row', backgroundColor: Colors.primaryLight, borderRadius: 12, padding: 4, marginBottom: 20 },
-  toggleBtn: { flex: 1, paddingVertical: 10, borderRadius: 10, alignItems: 'center' },
-  toggleBtnActive: { backgroundColor: Colors.primary },
-  toggleText: { fontWeight: '600', color: Colors.primaryDark },
+  container: { padding: Spacing.xl, paddingBottom: 60 },
+  toggleRow: {
+    flexDirection: 'row',
+    backgroundColor: Colors.primaryLight,
+    borderRadius: Radius.md,
+    padding: 4,
+    marginBottom: Spacing.lg,
+  },
+  toggleBtn: { flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center' },
+  toggleBtnActive: { backgroundColor: Colors.primary, ...Shadows.floating },
+  toggleText: { fontWeight: '700', color: Colors.primaryDark },
   toggleTextActive: { color: Colors.white },
-  label: { fontSize: 14, fontWeight: '700', color: Colors.text, marginBottom: 8, marginTop: 6 },
-  amountRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginBottom: 16 },
+  amountCard: { marginBottom: 0 },
+  label: { ...Typography.caption, color: Colors.text, marginBottom: 10, marginTop: 6, textTransform: 'uppercase', letterSpacing: 0.3 },
+  amountRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginBottom: 6 },
   amountChip: {
     paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 10,
-    backgroundColor: Colors.card,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    paddingHorizontal: 20,
+    borderRadius: Radius.sm,
+    backgroundColor: Colors.primarySoft,
+    borderWidth: 1.5,
+    borderColor: 'transparent',
   },
   amountChipActive: { backgroundColor: Colors.gold, borderColor: Colors.gold },
   amountChipText: { fontWeight: '700', color: Colors.text },
   amountChipTextActive: { color: Colors.white },
-  input: {
-    backgroundColor: Colors.card,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 14,
-    fontSize: 15,
-  },
-  donateBtn: {
-    backgroundColor: Colors.primary,
-    borderRadius: 14,
-    paddingVertical: 16,
+  inputWrap: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    backgroundColor: Colors.primarySoft,
+    borderRadius: Radius.sm,
+    marginBottom: 6,
+    paddingHorizontal: 14,
   },
-  donateBtnText: { color: Colors.white, fontWeight: '800', fontSize: 16 },
-  note: { fontSize: 12, color: Colors.textMuted, marginTop: 14, textAlign: 'center' },
-  haseneLink: { fontSize: 13, color: Colors.primary, marginTop: 18, textAlign: 'center', fontWeight: '600' },
+  inputPrefix: { fontSize: 16, fontWeight: '800', color: Colors.textMuted, marginRight: 4 },
+  inputWithPrefix: { flex: 1, paddingVertical: 12, fontSize: 16, fontWeight: '700', color: Colors.text },
+  input: {
+    backgroundColor: Colors.primarySoft,
+    borderRadius: Radius.sm,
+    padding: 13,
+    marginBottom: 6,
+    fontSize: 15,
+    color: Colors.text,
+  },
+  noteRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 18 },
+  note: { fontSize: 12, color: Colors.textMuted },
+  haseneLink: { fontSize: 13, color: Colors.primary, marginTop: 18, textAlign: 'center', fontWeight: '700' },
 });

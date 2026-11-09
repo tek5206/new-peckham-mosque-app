@@ -6,10 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#073D27",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0B5D3B"
+      "backgroundColor": "#073D27"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -23,8 +24,9 @@
       "package": "org.newpeckhammosque.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0B5D3B"
+        "backgroundColor": "#073D27"
       },
+      "edgeToEdgeEnabled": true,
       "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "NOTIFICATIONS"]
     },
     "plugins": [
@@ -32,7 +34,7 @@
         "expo-notifications",
         {
           "icon": "./assets/notification-icon.png",
-          "color": "#0B5D3B"
+          "color": "#073D27"
         }
       ]
     ],

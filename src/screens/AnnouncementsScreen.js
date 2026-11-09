@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
+import { Spacing } from '../constants/theme';
 import AnnouncementCard from '../components/AnnouncementCard';
+import ScreenHeader from '../components/ScreenHeader';
 import { subscribeToAnnouncements } from '../services/announcementsService';
 
 export default function AnnouncementsScreen() {
@@ -26,17 +29,23 @@ export default function AnnouncementsScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t('announcements.title')}</Text>
+        <ScreenHeader eyebrow={t('tabs.home')} title={t('announcements.title')} showMark />
       </View>
       <FlatList
         data={announcements}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => <AnnouncementCard item={item} />}
         ListEmptyComponent={
-          loaded ? <Text style={styles.empty}>{t('announcements.empty')}</Text> : null
+          loaded ? (
+            <View style={styles.empty}>
+              <Ionicons name="megaphone-outline" size={34} color={Colors.textFaint} />
+              <Text style={styles.emptyText}>{t('announcements.empty')}</Text>
+            </View>
+          ) : null
         }
       />
     </SafeAreaView>
@@ -45,8 +54,8 @@ export default function AnnouncementsScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
-  header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8 },
-  title: { fontSize: 26, fontWeight: '800', color: Colors.primaryDark },
-  list: { paddingHorizontal: 20, paddingBottom: 40 },
-  empty: { textAlign: 'center', color: Colors.textMuted, marginTop: 60, fontSize: 15 },
+  header: { paddingHorizontal: Spacing.xl, paddingTop: Spacing.lg },
+  list: { paddingHorizontal: Spacing.xl, paddingBottom: 48 },
+  empty: { alignItems: 'center', marginTop: 70, gap: 12 },
+  emptyText: { textAlign: 'center', color: Colors.textMuted, fontSize: 14.5 },
 });

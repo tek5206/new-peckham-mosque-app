@@ -1,12 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
+import { Radius, Shadows } from '../constants/theme';
 
-export default function PrayerRow({ label, time, isNext, isPast }) {
+export default function PrayerRow({ label, time, icon, isNext, isPast }) {
   return (
     <View style={[styles.row, isNext && styles.rowActive]}>
       <View style={styles.left}>
-        {isNext ? <View style={styles.dot} /> : <View style={styles.dotPlaceholder} />}
+        <View style={[styles.iconWrap, isNext && styles.iconWrapActive]}>
+          <Ionicons
+            name={icon || 'time-outline'}
+            size={17}
+            color={isNext ? Colors.white : Colors.primary}
+          />
+        </View>
         <Text style={[styles.label, isNext && styles.labelActive, isPast && styles.labelPast]}>
           {label}
         </Text>
@@ -23,26 +31,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    marginBottom: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: Radius.md,
+    backgroundColor: Colors.card,
+    ...Shadows.card,
   },
   rowActive: {
     backgroundColor: Colors.primary,
+    shadowOpacity: 0,
+    elevation: 2,
   },
-  left: { flexDirection: 'row', alignItems: 'center' },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: Colors.gold,
-    marginRight: 10,
+  left: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  iconWrap: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: Colors.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  dotPlaceholder: { width: 8, height: 8, marginRight: 10 },
-  label: { fontSize: 16, fontWeight: '600', color: Colors.text },
+  iconWrapActive: { backgroundColor: 'rgba(255,255,255,0.16)' },
+  label: { fontSize: 15.5, fontWeight: '700', color: Colors.text },
   labelActive: { color: Colors.white },
-  labelPast: { color: Colors.textMuted },
-  time: { fontSize: 16, fontWeight: '700', color: Colors.text },
+  labelPast: { color: Colors.textFaint },
+  time: { fontSize: 15.5, fontWeight: '800', color: Colors.text },
   timeActive: { color: Colors.white },
 });

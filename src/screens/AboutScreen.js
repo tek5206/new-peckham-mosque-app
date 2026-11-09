@@ -2,15 +2,31 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/colors';
 import MosqueInfo from '../constants/mosqueInfo';
+import { Radius, Shadows, Spacing, Typography } from '../constants/theme';
+import { MosqueMark, IcmgWordmark } from '../components/Logo';
+import Card from '../components/Card';
+import ScreenHeader from '../components/ScreenHeader';
 
-function Section({ title, body }) {
+const SECTIONS = [
+  { key: 'org', icon: 'business-outline' },
+  { key: 'sheikh', icon: 'person-outline' },
+  { key: 'services', icon: 'sparkles-outline' },
+];
+
+function Section({ icon, title, body }) {
   return (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>{title}</Text>
+    <Card style={styles.section}>
+      <View style={styles.sectionHeaderRow}>
+        <View style={styles.sectionIconWrap}>
+          <Ionicons name={icon} size={17} color={Colors.primary} />
+        </View>
+        <Text style={styles.sectionTitle}>{title}</Text>
+      </View>
       <Text style={styles.sectionBody}>{body}</Text>
-    </View>
+    </Card>
   );
 }
 
@@ -18,16 +34,29 @@ export default function AboutScreen() {
   const { t } = useTranslation();
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>{t('about.title')}</Text>
-        <Text style={styles.mosqueName}>{MosqueInfo.name}</Text>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <ScreenHeader eyebrow={MosqueInfo.name} title={t('about.title')} />
 
-        <Section title={t('about.orgTitle')} body={t('about.orgBody')} />
-        <Section title={t('about.sheikhTitle')} body={t('about.sheikhBody')} />
-        <Section title={t('about.servicesTitle')} body={t('about.servicesBody')} />
+        <View style={styles.brandBand}>
+          <MosqueMark size={64} ring />
+          <View style={styles.brandDivider} />
+          <IcmgWordmark width={150} />
+        </View>
 
-        <Text style={styles.disclaimer}>{t('about.disclaimer')}</Text>
+        {SECTIONS.map((s) => (
+          <Section
+            key={s.key}
+            icon={s.icon}
+            title={t(`about.${s.key}Title`)}
+            body={t(`about.${s.key}Body`)}
+          />
+        ))}
+
+        <View style={styles.disclaimerBox}>
+          <Ionicons name="information-circle-outline" size={15} color={Colors.textMuted} />
+          <Text style={styles.disclaimer}>{t('about.disclaimer')}</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -35,18 +64,36 @@ export default function AboutScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
-  container: { padding: 20, paddingBottom: 60 },
-  title: { fontSize: 26, fontWeight: '800', color: Colors.primaryDark },
-  mosqueName: { fontSize: 15, color: Colors.gold, fontWeight: '700', marginTop: 2, marginBottom: 20 },
-  section: {
+  container: { padding: Spacing.xl, paddingBottom: 60 },
+  brandBand: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: Colors.card,
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderRadius: Radius.xl,
+    paddingVertical: 26,
+    marginBottom: Spacing.xl,
+    gap: Spacing.lg,
+    ...Shadows.card,
   },
-  sectionTitle: { fontSize: 16, fontWeight: '800', color: Colors.primaryDark, marginBottom: 8 },
-  sectionBody: { fontSize: 14, color: Colors.text, lineHeight: 21 },
-  disclaimer: { fontSize: 11, color: Colors.textMuted, marginTop: 10, fontStyle: 'italic' },
+  brandDivider: { width: 1, height: 40, backgroundColor: Colors.border },
+  section: { marginBottom: Spacing.md },
+  sectionHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
+  sectionIconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sectionTitle: { ...Typography.h2, color: Colors.primaryDark, flex: 1 },
+  sectionBody: { fontSize: 14.5, color: Colors.text, lineHeight: 22 },
+  disclaimerBox: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: Spacing.sm,
+    paddingHorizontal: 4,
+  },
+  disclaimer: { flex: 1, fontSize: 11.5, color: Colors.textMuted, fontStyle: 'italic', lineHeight: 16 },
 });
