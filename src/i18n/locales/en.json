@@ -1,0 +1,90 @@
+{
+  "tabs": {
+    "home": "Home",
+    "prayerTimes": "Prayer Times",
+    "announcements": "Announcements",
+    "donate": "Donate",
+    "more": "More"
+  },
+  "home": {
+    "greeting": "Assalamu Alaikum",
+    "nextPrayer": "Next Prayer",
+    "todayAt": "Today at",
+    "quickLinks": "Quick Links",
+    "about": "About Us",
+    "contact": "Contact",
+    "settings": "Settings",
+    "latestAnnouncement": "Latest Announcement"
+  },
+  "prayer": {
+    "title": "Prayer Times",
+    "fajr": "Fajr",
+    "sunrise": "Sunrise",
+    "dhuhr": "Dhuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha",
+    "jumuah": "Jumu'ah Khutbah",
+    "calculationMethod": "Calculation method: Diyanet İşleri Başkanlığı (Turkey)",
+    "nextIn": "Time remaining",
+    "loading": "Calculating prayer times...",
+    "error": "Could not load prayer times. Showing last saved times.",
+    "updated": "Last updated"
+  },
+  "announcements": {
+    "title": "Announcements",
+    "empty": "No announcements yet. Check back soon.",
+    "newBadge": "New",
+    "notifyMe": "Notify me about new announcements"
+  },
+  "donate": {
+    "title": "Donate",
+    "subtitle": "Support New Peckham Mosque with a one-time or recurring monthly gift.",
+    "oneTime": "One-time",
+    "monthly": "Monthly (auto-renew)",
+    "chooseAmount": "Choose an amount (£)",
+    "customAmount": "Custom amount",
+    "donateNow": "Donate Now",
+    "secureNote": "Payments are processed securely by Stripe. Your card is never stored on our servers.",
+    "cancelAnytime": "You can cancel your monthly donation at any time from Settings.",
+    "thankYouTitle": "Thank you!",
+    "thankYouBody": "Your generosity helps us serve the community. May Allah reward you.",
+    "haseneNote": "Looking for Hasene humanitarian campaigns? Visit hasene.org.uk",
+    "paymentFailed": "Payment could not be completed. Please try again."
+  },
+  "about": {
+    "title": "About Us",
+    "orgTitle": "Islamic Community Millî Görüş (ICMG) – Peckham",
+    "orgBody": "New Peckham Mosque is a branch of the Islamic Community Millî Görüş (ICMG) in London, serving both Muslims and the wider community. The mosque is grounded in the principles of Ahl al-Sunnah wa'l-Jama'ah, and works to strengthen faith, good character, solidarity and social responsibility through worship, education, guidance, social support and community services.",
+    "sheikhTitle": "Sheikh Nazim Al-Qubrusi al-Haqqani",
+    "sheikhBody": "The mosque community draws spiritual inspiration from Sheikh Muhammad Nazim Adil al-Haqqani al-Qubrusi (1922–2014), a Cypriot-born scholar and the late leader of the Naqshbandi-Haqqani Sufi order, widely respected for his decades of teaching across Europe, the Middle East and Asia.",
+    "servicesTitle": "Services",
+    "servicesBody": "Umrah & Hajj organisation, Nikah (marriage) services, funeral support (UQBAH), weekly Friday khutbahs and Erkam Sermons, education classes, and dedicated committees for women, youth and children.",
+    "disclaimer": "Historical details above are a summary; please confirm and expand with the mosque office for full accuracy."
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "phoneHours": "Mon–Fri, 09:00–17:00",
+    "email": "Email",
+    "social": "Follow us",
+    "sendMessage": "Send a Message",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "yourPhone": "Your phone (optional)",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "openMaps": "Open in Maps"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "notifications": "Push notifications",
+    "notificationsDesc": "Get notified when the mosque posts a new announcement.",
+    "arabicOption": "Enable Arabic interface",
+    "about": "About this app",
+    "version": "Version"
+  }
+}

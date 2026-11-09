@@ -1,0 +1,90 @@
+{
+  "tabs": {
+    "home": "Ana Sayfa",
+    "prayerTimes": "Namaz Vakitleri",
+    "announcements": "Duyurular",
+    "donate": "Bağış",
+    "more": "Diğer"
+  },
+  "home": {
+    "greeting": "Esselamü Aleyküm",
+    "nextPrayer": "Sıradaki Vakit",
+    "todayAt": "Bugün saat",
+    "quickLinks": "Hızlı Bağlantılar",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "settings": "Ayarlar",
+    "latestAnnouncement": "Son Duyuru"
+  },
+  "prayer": {
+    "title": "Namaz Vakitleri",
+    "fajr": "İmsak",
+    "sunrise": "Güneş",
+    "dhuhr": "Öğle",
+    "asr": "İkindi",
+    "maghrib": "Akşam",
+    "isha": "Yatsı",
+    "jumuah": "Cuma Hutbesi",
+    "calculationMethod": "Hesaplama yöntemi: Diyanet İşleri Başkanlığı (Türkiye)",
+    "nextIn": "Kalan süre",
+    "loading": "Namaz vakitleri hesaplanıyor...",
+    "error": "Vakitler yüklenemedi. Son kaydedilen vakitler gösteriliyor.",
+    "updated": "Son güncelleme"
+  },
+  "announcements": {
+    "title": "Duyurular",
+    "empty": "Henüz duyuru yok. Daha sonra tekrar kontrol edin.",
+    "newBadge": "Yeni",
+    "notifyMe": "Yeni duyurular için bana bildirim gönder"
+  },
+  "donate": {
+    "title": "Bağış Yap",
+    "subtitle": "New Peckham Camii'ne tek seferlik veya her ay otomatik tekrarlanan bir bağışla destek olun.",
+    "oneTime": "Tek seferlik",
+    "monthly": "Aylık (otomatik yenilenir)",
+    "chooseAmount": "Bir tutar seçin (£)",
+    "customAmount": "Özel tutar",
+    "donateNow": "Şimdi Bağış Yap",
+    "secureNote": "Ödemeler Stripe tarafından güvenli şekilde işlenir. Kart bilgileriniz sunucularımızda saklanmaz.",
+    "cancelAnytime": "Aylık bağışınızı Ayarlar bölümünden istediğiniz zaman iptal edebilirsiniz.",
+    "thankYouTitle": "Teşekkür ederiz!",
+    "thankYouBody": "Cömertliğiniz topluma hizmet etmemize yardımcı oluyor. Allah razı olsun.",
+    "haseneNote": "Hasene insani yardım kampanyaları için hasene.org.uk adresini ziyaret edebilirsiniz.",
+    "paymentFailed": "Ödeme tamamlanamadı. Lütfen tekrar deneyin."
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "orgTitle": "İslam Toplumu Millî Görüş (ICMG) – Peckham",
+    "orgBody": "New Peckham Camii, Londra'daki İslam Toplumu Millî Görüş (ICMG) şubesidir; Müslümanlara ve geniş topluma hizmet vermektedir. Cami, Ehl-i Sünnet ve'l-Cemaat ilkelerine dayanır ve ibadet, eğitim, irşad, sosyal destek ve toplumsal hizmetler yoluyla iman, ahlak, dayanışma ve sorumluluk bilincini güçlendirmeyi amaçlar.",
+    "sheikhTitle": "Şeyh Nazım El-Kıbrısi El-Hakkani",
+    "sheikhBody": "Cami cemaati, Kıbrıs doğumlu alim ve Nakşibendi-Hakkani tarikatının merhum lideri Şeyh Muhammed Nazım Adil El-Hakkani El-Kıbrısi'den (1922-2014) manevi ilham almaktadır. Avrupa, Orta Doğu ve Asya'daki yıllarca süren vaaz ve sohbetleriyle geniş bir çevrede saygı duyulan bir şahsiyettir.",
+    "servicesTitle": "Hizmetler",
+    "servicesBody": "Umre ve Hac organizasyonu, nikah hizmetleri, cenaze yardımı (UQBAH), haftalık Cuma hutbeleri ve Erkam Sermons, eğitim dersleri, kadınlar, gençlik ve çocuklar için özel komiteler.",
+    "disclaimer": "Yukarıdaki tarihçe bilgileri bir özettir; tam doğruluk için lütfen cami yönetimiyle teyit edip genişletin."
+  },
+  "contact": {
+    "title": "İletişim",
+    "address": "Adres",
+    "phone": "Telefon",
+    "phoneHours": "Pazartesi–Cuma, 09:00–17:00",
+    "email": "E-posta",
+    "social": "Bizi takip edin",
+    "sendMessage": "Mesaj Gönder",
+    "yourName": "Adınız",
+    "yourEmail": "E-posta adresiniz",
+    "yourPhone": "Telefonunuz (opsiyonel)",
+    "subject": "Konu",
+    "message": "Mesajınız",
+    "send": "Gönder",
+    "openMaps": "Haritada Aç"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "language": "Dil",
+    "notifications": "Bildirimler",
+    "notificationsDesc": "Cami yeni bir duyuru paylaştığında bildirim alın.",
+    "arabicOption": "Arapça arayüzü etkinleştir",
+    "about": "Uygulama hakkında",
+    "version": "Sürüm"
+  }
+}

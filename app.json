@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "New Peckham Mosque",
+    "slug": "new-peckham-mosque",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B5D3B"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "org.newpeckhammosque.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Konumunuz, bulunduğunuz yere göre doğru namaz vakitlerini hesaplamak için kullanılır."
+      }
+    },
+    "android": {
+      "package": "org.newpeckhammosque.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0B5D3B"
+      },
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "NOTIFICATIONS"]
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#0B5D3B"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_YOUR_EAS_PROJECT_ID"
+      }
+    }
+  }
+}
